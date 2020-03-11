@@ -5,7 +5,7 @@
 
     <groupId>com.rdangi</groupId>
     <artifactId>spring-cloud-micro-services</artifactId>
-    <name>rest-micro-service</name>
+    <name>spring-cloud-micro-services</name>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
