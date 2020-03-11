@@ -1,0 +1,22 @@
+version: '3'
+services:
+  registry-service:
+    build: ./registry-service
+    image: rdangi81/registry-service
+    ports:
+      - "8761:8761"
+  hello-service:
+    build: ./hello-service
+    image: rdangi81/hello-service
+    ports:
+      - "8080:8080"
+
+    depends_on:
+          - registry-service
+  gateway-service:
+    build: ./gateway-service
+    image: rdangi81/gateway-service
+    ports:
+      - "9500:9500"
+    depends_on:
+              - registry-service

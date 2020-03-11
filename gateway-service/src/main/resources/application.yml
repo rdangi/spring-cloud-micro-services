@@ -1,0 +1,15 @@
+server:
+  port: 9500
+
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      routes:
+      - id: hello-service
+        uri: http://localhost:8080
+        predicates:
+        - Path=/hello/**
