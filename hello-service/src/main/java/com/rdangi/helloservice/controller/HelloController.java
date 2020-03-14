@@ -21,8 +21,12 @@ public class HelloController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
+    private DateTimeService dateTimeService;
+
     @Autowired
-    DateTimeService dateTimeService;
+    public HelloController(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 
     @GetMapping("/hello")
     public HelloModel greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
