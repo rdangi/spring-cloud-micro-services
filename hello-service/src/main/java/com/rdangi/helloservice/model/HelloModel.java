@@ -10,4 +10,5 @@ public class HelloModel {
     private final long id;
     private final String content;
     private final String dateTime;
+    private final String role;
 }

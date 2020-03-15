@@ -15,7 +15,7 @@ public class HelloControllerTest {
     private WebTestClient client;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.register(WebConfig.class);
@@ -25,27 +25,28 @@ public class HelloControllerTest {
     }
 
     @Test
-    public void testDefaultGreeting() throws Exception {
+    public void testDefaultGreeting() {
         client.get().uri("/hello")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
                 .jsonPath("$.id").isEqualTo("1")
                 .jsonPath("$.content").isEqualTo("Hello, World!")
-                .jsonPath("$.dateTime").isEqualTo("Wed, Jan 01 2020 09:00:00");
+                .jsonPath("$.dateTime").isEqualTo("Wed, Jan 01 2020 09:00:00")
+                .jsonPath("$.role").isEqualTo("tester");
     }
 
     @Test
-    public void testGreetingWithParams() throws Exception {
+    public void testGreetingWithParams() {
         client.get().uri("/hello?name=John")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
                 .jsonPath("$.id").isEqualTo("1")
                 .jsonPath("$.content").isEqualTo("Hello, John!")
-                .jsonPath("$.dateTime").isEqualTo("Wed, Jan 01 2020 09:00:00");
+                .jsonPath("$.dateTime").isEqualTo("Wed, Jan 01 2020 09:00:00")
+                .jsonPath("$.role").isEqualTo("tester");
     }
-
 
     @Configuration
     @EnableWebFlux
@@ -55,7 +56,7 @@ public class HelloControllerTest {
         public HelloController controller() {
             DateTimeService mockedDateTimeService = Mockito.mock(DateTimeService.class);
             Mockito.when(mockedDateTimeService.getCurrentDateTime()).thenReturn("Wed, Jan 01 2020 09:00:00");
-            return new HelloController(mockedDateTimeService);
+            return new HelloController(mockedDateTimeService, "tester");
         }
     }
 

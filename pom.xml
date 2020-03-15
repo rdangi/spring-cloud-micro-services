@@ -17,6 +17,7 @@
     </properties>
 
     <modules>
+		<module>config-server</module>
 		<module>hello-service</module>
         <module>gateway-service</module>
         <module>registry-service</module>

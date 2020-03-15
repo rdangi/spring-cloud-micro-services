@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: hello-service
+  cloud:
+    config:
+      uri: http://localhost:8888

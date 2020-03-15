@@ -5,18 +5,23 @@ services:
     image: rdangi81/registry-service
     ports:
       - "8761:8761"
+  config-server:
+    build: ./config-server
+    image: rdangi81/config-server
+    ports:
+      - "8888:8888"
   hello-service:
     build: ./hello-service
     image: rdangi81/hello-service
     ports:
       - "8080:8080"
-
     depends_on:
-          - registry-service
+      - registry-service
+      - config-server
   gateway-service:
     build: ./gateway-service
     image: rdangi81/gateway-service
     ports:
       - "9500:9500"
     depends_on:
-              - registry-service
+      - registry-service
