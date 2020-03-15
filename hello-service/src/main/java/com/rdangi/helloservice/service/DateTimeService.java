@@ -10,16 +10,11 @@ import java.time.format.DateTimeFormatter;
  */
 @Service
 public class DateTimeService {
-    public DateTimeService() {
-
-    }
 
     public String getCurrentDateTime() {
-
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy HH:mm:ss");
-        String formattedDate = myDateObj.format(myFormatObj);
-        return formattedDate;
+        return myDateObj.format(myFormatObj);
     }
 
 }

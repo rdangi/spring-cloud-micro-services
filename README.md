@@ -27,6 +27,8 @@ Launch services using `docker-compose`
 
 ```shell
 docker-compose up -d
+# For development envioronment 
+docker-compose up -d --build
 ```
 
 ## URLs:
