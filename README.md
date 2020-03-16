@@ -1,4 +1,4 @@
-![Build CI](https://github.com/rdangi/spring-cloud-micro-services/workflows/Build%20CI/badge.svg)
+![Build CI](https://github.com/rdangi/spring-cloud-micro-services/workflows/Maven%20Build/badge.svg)
 
 # Spring Cloud Micro Services
 
