@@ -1,6 +1,10 @@
 server:
   port: 9500
 
+gateway:
+  target:
+    url:
+      hello-service: http://localhost:8080
 
 spring:
   application:
@@ -10,6 +14,6 @@ spring:
     gateway:
       routes:
       - id: hello-service
-        uri: http://localhost:8080
+        uri: ${gateway.target.url.hello-service}
         predicates:
         - Path=/hello/**
