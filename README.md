@@ -1,5 +1,8 @@
+![Build CI](https://github.com/rdangi/spring-cloud-micro-services/workflows/Build%20CI/badge.svg)
 
-# spring-cloud-micro-services
+# Spring Cloud Micro Services
+
+Proof of concept for a enterprise level Spring cloud project
 
 ## Disclamer
 
