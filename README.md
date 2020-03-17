@@ -4,7 +4,7 @@
 
 Proof of concept for a enterprise level Spring cloud project
 
-## Disclamer
+## Disclaimer
 
 This project is *Proof of concept* (`PoC`) and code quality is not perfect, please before using in production review security concerns among other things
 
@@ -39,7 +39,3 @@ docker-compose up -d --build
 * Eureka - service-registry : http://localhost:8761/
 * Spring Boot Micro-Service - hello-service: http://localhost:8080/hello
 * Spring Cloud Gateway - gateway-service : http://localhost:9500/hello
-
-
-
-
