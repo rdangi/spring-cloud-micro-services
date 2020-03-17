@@ -27,7 +27,7 @@ public class HelloController {
     private String role;
 
     @Autowired
-    public HelloController(DateTimeService dateTimeService, @Value("${role}") String role) {
+    public HelloController(DateTimeService dateTimeService, @Value("${role:}") String role) {
         this.dateTimeService = dateTimeService;
         this.role = role;
     }
