@@ -31,10 +31,11 @@ Start building docker images for every services, simply run following command on
 # Launch services using `docker-compose`
 
 ```shell
-# Launch docker if build already complete
-docker-compose up -d
-# Perform build and then launch docker instances
-docker-compose up -d --build
+docker-compose build
+docker-compose run start-dependencies
+docker-compose up
+# or if you want to rebuild
+docker-compose up --build
 ```
 
 ## URLs:

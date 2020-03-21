@@ -27,14 +27,23 @@ public class HelloController {
     private String role;
 
     @Autowired
-    public HelloController(DateTimeService dateTimeService, @Value("${role:}") String role) {
+    public HelloController(DateTimeService dateTimeService, @Value("${role}") String role) {
         this.dateTimeService = dateTimeService;
         this.role = role;
     }
 
     @GetMapping("/hello")
     public HelloModel greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new HelloModel(counter.incrementAndGet(), String.format(template, name), dateTimeService.getCurrentDateTime(), role);
+        LOGGER.info("Generating greeting message");
+        HelloModel helloModel = HelloModel.builder()
+            .id(counter.incrementAndGet())
+            .content(String.format(template, name))
+            .dateTime(dateTimeService.getCurrentDateTime())
+            .currentDate(dateTimeService.getCurrentDate())
+            .role(role)
+            .build();
+        LOGGER.info("Generated the greeting message, {}", helloModel);
+        return helloModel;
     }
 
 }

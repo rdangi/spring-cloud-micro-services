@@ -4,12 +4,11 @@ server:
 gateway:
   target:
     url:
-      hello-service: http://localhost:8080
+      hello-service: lb://hello-service
 
 spring:
   application:
     name: gateway-service
-
   cloud:
     gateway:
       routes:
@@ -17,3 +16,9 @@ spring:
         uri: ${gateway.target.url.hello-service}
         predicates:
         - Path=/hello/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka/
+   

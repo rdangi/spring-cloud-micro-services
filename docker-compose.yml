@@ -1,5 +1,10 @@
 version: '3'
 services:
+  redis-cache:
+    build: ./redis-cache
+    image: rdangi81/redis-cache
+    ports:
+      - "6379:6379"
   registry-service:
     build: ./registry-service
     image: rdangi81/registry-service
@@ -10,18 +15,35 @@ services:
     image: rdangi81/config-server
     ports:
       - "8888:8888"
-  hello-service:
-    build: ./hello-service
-    image: rdangi81/hello-service
-    ports:
-      - "8080:8080"
+    environment:
+      - REDIS_HOST=redis-cache
+      - REGISTRY_HOST=registry-service
     depends_on:
       - registry-service
-      - config-server
   gateway-service:
     build: ./gateway-service
     image: rdangi81/gateway-service
     ports:
       - "9500:9500"
+    environment:
+      - REGISTRY_HOST=registry-service
     depends_on:
       - registry-service
+  start-dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - redis-cache
+      - registry-service
+      - config-server
+      - gateway-service
+    command: redis-cache:6379 registry-service:8761 config-server:8888 gateway-service:9500
+  hello-service:
+    build: ./hello-service
+    image: rdangi81/hello-service
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_HOST=redis-cache
+      - REGISTRY_HOST=registry-service
+    depends_on:
+      - start-dependencies
