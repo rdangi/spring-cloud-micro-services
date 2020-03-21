@@ -15,23 +15,27 @@ This project is *Proof of concept* (`PoC`) and code quality is not perfect, plea
 On each service folder run following command:
 
 ```sh
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ### Docker
 
-Start building docker images for every services, simply run following command on root directory
+Start building docker images for every services, simply run following command on root directory.
+
+> Before running this command, ensure Docker is installed and running in local/development environment.
 
 ```shell
-mvn clean package -Pdocker
+./mvnw clean package -Pdocker
 ```
 
-Launch services using `docker-compose`
+# Launch services using `docker-compose`
 
 ```shell
-docker-compose up -d
-# For development envioronment 
-docker-compose up -d --build
+docker-compose build
+docker-compose run start-dependencies
+docker-compose up
+# or if you want to rebuild
+docker-compose up --build
 ```
 
 ## URLs:

@@ -10,3 +10,8 @@ spring:
           uri: https://github.com/amiyasahu/spring-cloud-config-server
           cloneOnStart: true
           searchPaths: '{application}'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka/
