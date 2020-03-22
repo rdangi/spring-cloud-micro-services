@@ -30,7 +30,7 @@ public class DateTimeService {
     public String getCurrentDate() {
         log.info("Getting current date");
         LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-YYYY");
         return myDateObj.format(myFormatObj);
     }
 
