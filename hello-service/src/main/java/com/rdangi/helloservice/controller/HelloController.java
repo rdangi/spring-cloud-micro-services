@@ -1,5 +1,6 @@
 package com.rdangi.helloservice.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.rdangi.helloservice.model.HelloModel;
 import com.rdangi.helloservice.service.DateTimeService;
 import org.slf4j.Logger;
@@ -33,7 +34,12 @@ public class HelloController {
     }
 
     @GetMapping("/hello")
+    @HystrixCommand(fallbackMethod = "getFallbackData")
     public HelloModel greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+        if ("testFallback".equals(name)) {
+            LOGGER.error("Fallback condition is matched, so an exception will be thrown");
+            throw new RuntimeException();
+        }
         LOGGER.info("Generating greeting message");
         HelloModel helloModel = HelloModel.builder()
             .id(counter.incrementAndGet())
@@ -46,4 +52,16 @@ public class HelloController {
         return helloModel;
     }
 
+    public HelloModel getFallbackData(String name) {
+        LOGGER.info("Generating greeting message for fallback");
+        HelloModel helloModel = HelloModel.builder()
+            .id(counter.incrementAndGet())
+            .content(String.format(template, "Fallback user"))
+            .dateTime(dateTimeService.getCurrentDateTime())
+            .currentDate(dateTimeService.getCurrentDate())
+            .role("fallback role")
+            .build();
+        LOGGER.info("Generated the greeting message, {}", helloModel);
+        return helloModel;
+    }
 }
