@@ -53,7 +53,7 @@ On each service folder run following command:
 ./mvnw spring-boot:run
 ```
 
-# Using `docker-compose`
+### Using `docker-compose`
 
 ```shell
 docker-compose build
