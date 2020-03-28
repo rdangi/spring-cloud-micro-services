@@ -5,6 +5,10 @@ gateway:
   target:
     url:
       hello-service: lb://hello-service
+      httpbin: https://httpbin.org
+
+# Add 5 second timeout to fallback
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 5000
 
 spring:
   application:
@@ -12,10 +16,20 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: hello-service
-        uri: ${gateway.target.url.hello-service}
-        predicates:
-        - Path=/hello/**
+        - id: hello-service
+          uri: ${gateway.target.url.hello-service}
+          predicates:
+            - Path=/hello/**
+        - id: httpbin-with-timeout
+          uri: ${gateway.target.url.httpbin}
+          predicates:
+            - Path=/slow-service/**
+          filters:
+            - SetPath=/delay/10
+            - name: CircuitBreaker
+              args:
+                name: hystrixFallback
+                fallbackUri: forward:/gateway-fallback
 
 eureka:
   client:
