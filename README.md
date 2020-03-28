@@ -78,3 +78,4 @@ docker-compose up --build
 * Spring Boot Micro-Service - hello-service: http://localhost:8080/hello
 * Spring Cloud Gateway - gateway-service : http://localhost:9500/hello
 * Hystrix Dashboard - http://localhost:8080/hystrix/ --> Then enter `http://localhost:8080/hystrix.stream` as the stream value --> click on Monitor stream
+* Spring boot admin Dashboard - http://localhost:9000
