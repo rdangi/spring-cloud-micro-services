@@ -5,6 +5,11 @@ spring:
   application:
     name: spring-boot-admin
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka/
+
 management:
   security:
     enabled: false
