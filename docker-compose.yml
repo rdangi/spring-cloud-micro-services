@@ -29,6 +29,15 @@ services:
       - REGISTRY_HOST=registry-service
     depends_on:
       - registry-service
+  spring-boot-admin:
+    build: ./spring-boot-admin
+    image: rdangi81/spring-boot-admin
+    ports:
+      - "9000:9000"
+    environment:
+      - REGISTRY_HOST=registry-service
+    depends_on:
+      - registry-service
   start-dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
@@ -36,6 +45,7 @@ services:
       - registry-service
       - config-server
       - gateway-service
+      - spring-boot-admin
     command: redis-cache:6379 registry-service:8761 config-server:8888 gateway-service:9500
   hello-service:
     build: ./hello-service

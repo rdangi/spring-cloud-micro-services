@@ -1,15 +1,9 @@
 server:
-  port: 8888
+  port: 9000
+
 spring:
   application:
-    name: config-server
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/amiyasahu/spring-cloud-config-server
-          cloneOnStart: true
-          searchPaths: '{application}'
+    name: spring-boot-admin
 
 eureka:
   client:

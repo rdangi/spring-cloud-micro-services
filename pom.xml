@@ -31,6 +31,7 @@
         <module>hello-service</module>
         <module>gateway-service</module>
         <module>registry-service</module>
+        <module>spring-boot-admin</module>
     </modules>
 
     <dependencyManagement>
