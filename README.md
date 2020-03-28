@@ -1,11 +1,13 @@
-![Maven Build](https://github.com/rdangi/spring-cloud-micro-services/workflows/Maven%20Build/badge.svg)
+![spring-boot-docker-image](https://user-images.githubusercontent.com/2969035/77563922-4f230180-6e98-11ea-8ca8-515cd7abc79d.png)
 
-# Spring Cloud Micro Services
+# Spring Cloud Micro Services with Docker
 
 Proof of concept for a enterprise level Spring cloud project.
 
 > This project uses Docker for setting up easily. 
 > Before running, please ensure docker is installed and running in local/development environment.
+
+![Maven Build](https://github.com/rdangi/spring-cloud-micro-services/workflows/Maven%20Build/badge.svg)
 
 ## Disclaimer
 
@@ -17,8 +19,9 @@ This project demonstrates usage of following technologies.
 * Spring
 * Spring Cloud
 * Spring cloud Config server 
-* Spring cloud Eureka Service Registry and Discovery
-* Spring cloud Gateway
+* Netflix Eureka Service Registry and Discovery
+* Netflix Hystrix Circuit breaker
+* Spring Cloud Gateway
 * Redis cache
 * Docker
 * Maven
@@ -47,7 +50,13 @@ Start building docker images for every services, simply run following command on
 
 ### Using Maven
 
-On each service folder run following command:
+Run the Redis server before the services
+```cmd
+cd ./redis-cache
+docker build . -t redis-cache
+docker run -p "6379:6379" redis-cache
+```
+Then On each service folder run following command:
 
 ```sh
 ./mvnw spring-boot:run
