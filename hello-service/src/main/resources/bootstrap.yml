@@ -22,3 +22,9 @@ eureka:
     service-url:
       defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka/
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+      base-path: /
