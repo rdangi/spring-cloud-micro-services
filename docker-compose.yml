@@ -3,10 +3,12 @@ services:
   redis-cache:
     build: ./redis-cache
     image: rdangi81/redis-cache
+    restart: always
     ports:
       - "6379:6379"
   zipkin:
     image: openzipkin/zipkin
+    restart: always
     environment:
       - STORAGE_TYPE=mem
     ports:
@@ -14,11 +16,13 @@ services:
   registry-service:
     build: ./registry-service
     image: rdangi81/registry-service
+    restart: always
     ports:
       - "8761:8761"
   config-server:
     build: ./config-server
     image: rdangi81/config-server
+    restart: always
     ports:
       - "8888:8888"
     environment:
