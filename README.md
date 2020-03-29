@@ -54,7 +54,7 @@ Run the Redis server before the services
 ```cmd
 cd ./redis-cache
 docker build . -t redis-cache
-docker run -p "6379:6379" redis-cache
+docker run -d -p "6379:6379" redis-cache
 ```
 Then On each service folder run following command:
 

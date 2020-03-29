@@ -5,6 +5,12 @@ services:
     image: rdangi81/redis-cache
     ports:
       - "6379:6379"
+  zipkin:
+    image: openzipkin/zipkin
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - "9411:9411"
   registry-service:
     build: ./registry-service
     image: rdangi81/registry-service
@@ -18,8 +24,10 @@ services:
     environment:
       - REDIS_HOST=redis-cache
       - REGISTRY_HOST=registry-service
+      - ZIPKIN_HOST=zipkin
     depends_on:
       - registry-service
+      - zipkin
   gateway-service:
     build: ./gateway-service
     image: rdangi81/gateway-service
@@ -27,8 +35,10 @@ services:
       - "9500:9500"
     environment:
       - REGISTRY_HOST=registry-service
+      - ZIPKIN_HOST=zipkin
     depends_on:
       - registry-service
+      - zipkin
   spring-boot-admin:
     build: ./spring-boot-admin
     image: rdangi81/spring-boot-admin
@@ -46,7 +56,8 @@ services:
       - config-server
       - gateway-service
       - spring-boot-admin
-    command: redis-cache:6379 registry-service:8761 config-server:8888 gateway-service:9500
+      - zipkin
+    command: redis-cache:6379 registry-service:8761 config-server:8888 gateway-service:9500 zipkin:9411
   hello-service:
     build: ./hello-service
     image: rdangi81/hello-service
@@ -55,5 +66,6 @@ services:
     environment:
       - REDIS_HOST=redis-cache
       - REGISTRY_HOST=registry-service
+      - ZIPKIN_HOST=zipkin
     depends_on:
       - start-dependencies

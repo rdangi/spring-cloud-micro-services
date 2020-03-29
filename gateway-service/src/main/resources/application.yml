@@ -30,6 +30,11 @@ spring:
               args:
                 name: hystrixFallback
                 fallbackUri: forward:/gateway-fallback
+  zipkin:
+    base-url: http://${zipkin.host:localhost}:${zipkin.port:9411}/
+  sleuth:
+    sampler:
+      percentage: 1.0
 
 eureka:
   client:
