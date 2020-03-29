@@ -65,7 +65,7 @@ Then On each service folder run following command:
 ./mvnw spring-boot:run
 ```
 
-# Using `docker-compose`
+### Using `docker-compose`
 
 Before running the docker compose, please ensure at least 4GB is allocated for docker. 
 As it is starting up many services to setup the entire app, it needs more memory.
