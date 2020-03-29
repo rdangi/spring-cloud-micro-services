@@ -6,6 +6,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
+
   zipkin:
     image: openzipkin/zipkin
     restart: always
@@ -13,12 +14,59 @@ services:
       - STORAGE_TYPE=mem
     ports:
       - "9411:9411"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.1
+    user: root
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+      - JVM_OPTS=-Xmx256m -Xms256m -XX:MaxPermSize=256m
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data:rw              # Persistence data
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.6.1
+    ports:
+      - "25826:25826"
+      - "5044:5044"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro                # Pipeline configuration
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.1
+    ports:
+      - "5601:5601"
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.6.1
+    volumes:
+      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro # Configuration file
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro           # Docker logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro                       # Additional information about containers
+      - ./filebeat/data:/usr/share/filebeat/data:rw                        # Persistence data
+    user: root                                                             # Allow access to log files and docker.sock
+    restart: on-failure
+    depends_on:
+      - logstash
+
   registry-service:
     build: ./registry-service
     image: rdangi81/registry-service
     restart: always
     ports:
       - "8761:8761"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
   config-server:
     build: ./config-server
     image: rdangi81/config-server
@@ -29,9 +77,13 @@ services:
       - REDIS_HOST=redis-cache
       - REGISTRY_HOST=registry-service
       - ZIPKIN_HOST=zipkin
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
     depends_on:
       - registry-service
       - zipkin
+
   gateway-service:
     build: ./gateway-service
     image: rdangi81/gateway-service
@@ -40,9 +92,13 @@ services:
     environment:
       - REGISTRY_HOST=registry-service
       - ZIPKIN_HOST=zipkin
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
     depends_on:
       - registry-service
       - zipkin
+
   spring-boot-admin:
     build: ./spring-boot-admin
     image: rdangi81/spring-boot-admin
@@ -50,18 +106,12 @@ services:
       - "9000:9000"
     environment:
       - REGISTRY_HOST=registry-service
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
     depends_on:
       - registry-service
-  start-dependencies:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - redis-cache
-      - registry-service
-      - config-server
-      - gateway-service
-      - spring-boot-admin
-      - zipkin
-    command: redis-cache:6379 registry-service:8761 config-server:8888 gateway-service:9500 zipkin:9411
+
   hello-service:
     build: ./hello-service
     image: rdangi81/hello-service
@@ -71,5 +121,7 @@ services:
       - REDIS_HOST=redis-cache
       - REGISTRY_HOST=registry-service
       - ZIPKIN_HOST=zipkin
-    depends_on:
-      - start-dependencies
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    restart: on-failure

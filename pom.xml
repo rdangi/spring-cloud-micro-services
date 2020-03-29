@@ -23,6 +23,7 @@
         <junit-jupiter.version>5.6.0</junit-jupiter.version>
         <dockerOrg>rdangi81</dockerOrg>
         <dockerImageName>${dockerOrg}/${project.artifactId}:${project.version}</dockerImageName>
+        <logstash-logback-encoder.version>6.3</logstash-logback-encoder.version>
     </properties>
 
     <modules>
@@ -81,6 +82,13 @@
             <artifactId>junit-jupiter</artifactId>
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Logback encoder for Logstash -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
 
     </dependencies>
