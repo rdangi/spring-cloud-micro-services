@@ -10,6 +10,8 @@ spring:
           uri: https://github.com/amiyasahu/spring-cloud-config-server
           cloneOnStart: true
           searchPaths: '{application}'
+  zipkin:
+    enabled: false
 
 eureka:
   client:
