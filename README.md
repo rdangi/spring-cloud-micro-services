@@ -22,6 +22,8 @@ This project demonstrates usage of following technologies.
 * Netflix Eureka Service Registry and Discovery
 * Netflix Hystrix Circuit breaker
 * Spring Cloud Gateway
+* Zipkin for distributed tracing
+* Elastic Search + Logstash + Kibana + Beats for log aggregation, visualization and analytics
 * Redis cache
 * Docker
 * Maven
@@ -55,6 +57,7 @@ Run the Redis server before the services
 cd ./redis-cache
 docker build . -t redis-cache
 docker run -d -p "6379:6379" redis-cache
+docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 Then On each service folder run following command:
 
@@ -64,12 +67,13 @@ Then On each service folder run following command:
 
 ### Using `docker-compose`
 
+Before running the docker compose, please ensure at least 4GB is allocated for docker. 
+As it is starting up many services to setup the entire app, it needs more memory.
+ 
 ```shell
-docker-compose build
-docker-compose run start-dependencies
-docker-compose up
+docker-compose up -d
 # or if you want to rebuild
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 ## Application URLs in development environment
@@ -80,3 +84,4 @@ docker-compose up --build
 * Hystrix Dashboard - http://localhost:8080/hystrix/ --> Then enter `http://localhost:8080/hystrix.stream` as the stream value --> click on Monitor stream
 * Spring boot admin Dashboard - http://localhost:9000
 * Zipkin - http://localhost:9411
+* Kibana Dashboard - http://localhost:5601
