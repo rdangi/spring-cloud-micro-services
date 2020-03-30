@@ -9,11 +9,6 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
-  cache:
-    type: redis
-  redis:
-    host: ${redis.host:localhost}
-    port: ${redis.port:6379}
   zipkin:
     base-url: http://${zipkin.host:localhost}:${zipkin.port:9411}/
   sleuth:
@@ -35,3 +30,13 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+
+# Additional Configurations while running in docker
+---
+spring:
+  profiles: docker
+  cache:
+    type: redis
+  redis:
+    host: ${redis.host:localhost}
+    port: ${redis.port:6379}
