@@ -37,6 +37,10 @@ public class HelloController {
     @HystrixCommand(fallbackMethod = "getFallbackData")
     public HelloModel greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         if ("testFallback".equals(name)) {
+            // to test the fallback functionality
+            // throws a Runtime exception when the testFallback param is received
+            // However this won't fail the web service call.
+            // Due to hystrix configuration, the getFallbackData will be invoked and returns the response
             LOGGER.error("Fallback condition is matched, so an exception will be thrown");
             throw new RuntimeException();
         }
