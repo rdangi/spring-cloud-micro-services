@@ -9,7 +9,6 @@
 	</parent>
 
 	<artifactId>spring-boot-admin</artifactId>
-	<version>${project.parent.version}</version>
 	<name>spring-boot-admin</name>
 	<description>Spring Boot Admin</description>
 
