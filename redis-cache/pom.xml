@@ -10,7 +10,6 @@
 	</parent>
 
 	<artifactId>redis-cache</artifactId>
-	<version>${project.parent.version}</version>
 	<name>redis-cache</name>
 	<packaging>pom</packaging>
 	
