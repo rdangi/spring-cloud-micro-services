@@ -10,7 +10,6 @@
     </parent>
 
 	<artifactId>hello-service</artifactId>
-	<version>${project.parent.version}</version>
     <name>hello-service</name>
 
     <dependencies>
@@ -28,12 +27,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
