@@ -11,7 +11,6 @@
     </parent>
 
     <artifactId>registry-service</artifactId>
-    <version>${project.parent.version}</version>
     <name>registry-service</name>
 
     <dependencies>
@@ -19,12 +18,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
