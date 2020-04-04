@@ -10,7 +10,6 @@
 	</parent>
 
 	<artifactId>config-server</artifactId>
-	<version>${project.parent.version}</version>
 	<name>config-server</name>
 
 	<dependencies>

@@ -16,12 +16,11 @@ This project is *Proof of concept* (`PoC`) and code quality is not perfect, plea
 ## Technology Stack
 This project demonstrates usage of following technologies. 
 
-* Spring
-* Spring Cloud
+* Spring Boot
+* Spring Cloud Gateway
 * Spring cloud Config server 
 * Netflix Eureka Service Registry and Discovery
 * Netflix Hystrix Circuit breaker
-* Spring Cloud Gateway
 * Zipkin for distributed tracing
 * Elastic Search + Logstash + Kibana + Beats for log aggregation, visualization and analytics
 * Redis cache
@@ -35,8 +34,6 @@ This project demonstrates usage of following technologies.
 To build the project use below maven commands
 
 ```sh
-./mvnw clean package
-# to run unit tests
 ./mvnw clean package
 ```
 
@@ -52,13 +49,6 @@ Start building docker images for every services, simply run following command on
 
 ### Using Maven
 
-Run the Redis server before the services
-```cmd
-cd ./redis-cache
-docker build . -t redis-cache
-docker run -d -p "6379:6379" redis-cache
-docker run -d -p 9411:9411 openzipkin/zipkin
-```
 Then On each service folder run following command:
 
 ```sh
@@ -81,7 +71,7 @@ docker-compose up -d --build
 * Eureka - service-registry : http://localhost:8761/
 * Spring Boot Micro-Service - hello-service: http://localhost:8080/hello
 * Spring Cloud Gateway - gateway-service : http://localhost:9500/hello
-* Hystrix Dashboard - http://localhost:8080/hystrix/ --> Then enter `http://localhost:8080/hystrix.stream` as the stream value --> click on Monitor stream
+* Hystrix Dashboard - http://localhost:8080/hystrix/ --> Then enter `http://localhost:8080/actuator/hystrix.stream` as the stream value --> click on Monitor stream
 * Spring boot admin Dashboard - http://localhost:9000
 * Zipkin - http://localhost:9411
 * Kibana Dashboard - http://localhost:5601

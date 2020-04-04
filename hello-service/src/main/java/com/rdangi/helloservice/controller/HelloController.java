@@ -3,6 +3,7 @@ package com.rdangi.helloservice.controller;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.rdangi.helloservice.model.HelloModel;
 import com.rdangi.helloservice.service.DateTimeService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by ramdangi on 06/03/20.
  */
 @RestController
+@Slf4j
 public class HelloController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -34,17 +35,22 @@ public class HelloController {
     }
 
     @GetMapping("/hello")
-    @HystrixCommand(fallbackMethod = "getFallbackData")
+    @HystrixCommand(fallbackMethod = "getFallbackHelloModel")
     public HelloModel greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         if ("testFallback".equals(name)) {
             // to test the fallback functionality
             // throws a Runtime exception when the testFallback param is received
             // However this won't fail the web service call.
-            // Due to hystrix configuration, the getFallbackData will be invoked and returns the response
-            LOGGER.error("Fallback condition is matched, so an exception will be thrown");
+            // Due to hystrix configuration, the getFallbackHelloModel will be invoked and returns the response
+            log.error("Fallback condition is matched, so an exception will be thrown");
             throw new RuntimeException();
         }
-        LOGGER.info("Generating greeting message");
+
+        return generateHelloModel(name);
+    }
+
+    private HelloModel generateHelloModel(String name) {
+        log.info("Generating greeting message");
         HelloModel helloModel = HelloModel.builder()
             .id(counter.incrementAndGet())
             .content(String.format(template, name))
@@ -52,12 +58,12 @@ public class HelloController {
             .currentDate(dateTimeService.getCurrentDate())
             .role(role)
             .build();
-        LOGGER.info("Generated the greeting message, {}", helloModel);
+        log.info("Generated the greeting message, {}", helloModel);
         return helloModel;
     }
 
-    public HelloModel getFallbackData(String name) {
-        LOGGER.info("Generating greeting message for fallback");
+    public HelloModel getFallbackHelloModel(String name) {
+        log.info("Generating greeting message for fallback");
         HelloModel helloModel = HelloModel.builder()
             .id(counter.incrementAndGet())
             .content(String.format(template, "Fallback user"))
@@ -65,7 +71,7 @@ public class HelloController {
             .currentDate(dateTimeService.getCurrentDate())
             .role("fallback role")
             .build();
-        LOGGER.info("Generated the greeting message, {}", helloModel);
+        log.info("Generated the greeting message, {}", helloModel);
         return helloModel;
     }
 }
